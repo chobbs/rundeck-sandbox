@@ -1,0 +1,224 @@
+- defaultTab: nodes
+  description: |-
+    ⚙️ This job uses the AWS status RSS feed to display platform status
+
+    **Command**
+
+        Select the service of interest. Run a job per location/service from the dropdown (or manually type the service)
+
+     - ℹ️ Follow the format - ec2-us-east-1
+     - ✍🏻 Jroberts/Pkarayanev
+     - 🤔 Solutions Consulting
+  executionEnabled: true
+  group: Other
+  id: 08360576-044e-4762-a7e5-da572919322a
+  loglevel: INFO
+  name: AWS Status (RSS)
+  nodeFilterEditable: false
+  options:
+  - description: |
+      ##  🧤 Select a region
+
+      1. Pick a region for retrieval
+      2. Or add your own location/service
+      3. Run a job per service.
+    label: region
+    name: Region
+    required: true
+    value: ec2-us-east-1
+    values:
+    - loudfront
+    - management-console
+    - import-export
+    - route53
+    - fps
+    - mturk-worker
+    - mturk-requestor
+    - cloudsearch-us-west-1
+    - cloudsearch-us-east-1
+    - cloudsearch-us-west-2
+    - cloudwatch-us-west-1
+    - cloudwatch-us-east-1
+    - cloudwatch-us-west-2
+    - dynamodb-us-west-1
+    - dynamodb-us-east-1
+    - dynamodb-us-west-2
+    - ec2-us-west-1
+    - ec2-us-east-1
+    - ec2-us-west-2
+    - elb-us-west-1
+    - elb-us-east-1
+    - elb-us-west-2
+    - emr-us-west-1
+    - emr-us-east-1
+    - emr-us-west-2
+    - elastictranscoder-us-west-1
+    - elastictranscoder-us-east-1
+    - elastictranscoder-us-west-2
+    - elasticache-us-west-1
+    - elasticache-us-east-1
+    - elasticache-us-west-2
+    - glacier-us-west-1
+    - glacier-us-east-1
+    - glacier-us-west-2
+    - redshift-us-east-1
+    - redshift-us-west-2
+    - rds-us-west-1
+    - rds-us-east-1
+    - rds-us-west-2
+    - ses-us-east-1
+    - sns-us-west-1
+    - sns-us-east-1
+    - sns-us-west-2
+    - sqs-us-west-1
+    - sqs-us-east-1
+    - sqs-us-west-2
+    - s3-us-west-1
+    - s3-us-west-2
+    - s3-us-standard
+    - swf-us-west-1
+    - swf-us-east-1
+    - swf-us-west-2
+    - simpledb-us-west-1
+    - simpledb-us-east-1
+    - simpledb-us-west-2
+    - vpc-us-west-1
+    - vpc-us-east-1
+    - vpc-us-west-2
+    - cloudformation-us-west-1
+    - cloudformation-us-east-1
+    - cloudformation-us-west-2
+    - cloudhsm-us-east-1
+    - datapipeline-us-east-1
+    - directconnect-us-west-1
+    - directconnect-us-east-1
+    - elasticbeanstalk-us-west-1
+    - elasticbeanstalk-us-east-1
+    - elasticbeanstalk-us-west-2
+    - iam-us-west-1
+    - iam-us-east-1
+    - iam-us-west-2
+    - opsworks-us-east-1
+    - storagegateway-us-west-1
+    - storagegateway-us-east-1
+    - storagegateway-us-west-2
+    - cloudwatch-sa-east-1
+    - dynamodb-sa-east-1
+    - ec2-sa-east-1
+    - elb-sa-east-1
+    - emr-sa-east-1
+    - elasticache-sa-east-1
+    - rds-sa-east-1
+    - sns-sa-east-1
+    - sqs-sa-east-1
+    - s3-sa-east-1
+    - swf-sa-east-1
+    - simpledb-sa-east-1
+    - vpc-sa-east-1
+    - cloudformation-sa-east-1
+    - directconnect-sa-east-1
+    - elasticbeanstalk-sa-east-1
+    - iam-sa-east-1
+    - storagegateway-sa-east-1
+    - cloudsearch-eu-west-1
+    - cloudwatch-eu-west-1
+    - dynamodb-eu-west-1
+    - ec2-eu-west-1
+    - elb-eu-west-1
+    - emr-eu-west-1
+    - elastictranscoder-eu-west-1
+    - elasticache-eu-west-1
+    - glacier-eu-west-1
+    - redshift-eu-west-1
+    - rds-eu-west-1
+    - sns-eu-west-1
+    - sqs-eu-west-1
+    - s3-eu-west-1
+    - swf-eu-west-1
+    - simpledb-eu-west-1
+    - vpc-eu-west-1
+    - cloudformation-eu-west-1
+    - cloudhsm-eu-west-1
+    - directconnect-eu-west-1
+    - elasticbeanstalk-eu-west-1
+    - iam-eu-west-1
+    - storagegateway-eu-west-1
+    - cloudsearch-ap-southeast-1
+    - cloudwatch-ap-southeast-1
+    - cloudwatch-ap-southeast-2
+    - cloudwatch-ap-northeast-1
+    - dynamodb-ap-southeast-1
+    - dynamodb-ap-southeast-2
+    - dynamodb-ap-northeast-1
+    - ec2-ap-southeast-1
+    - ec2-ap-southeast-2
+    - ec2-ap-northeast-1
+    - elb-ap-southeast-1
+    - elb-ap-southeast-2
+    - elb-ap-northeast-1
+    - emr-ap-southeast-1
+    - emr-ap-southeast-2
+    - emr-ap-northeast-1
+    - elastictranscoder-ap-southeast-1
+    - elastictranscoder-ap-northeast-1
+    - elasticache-ap-southeast-1
+    - elasticache-ap-northeast-1
+    - glacier-ap-southeast-2
+    - glacier-ap-northeast-1
+    - redshift-ap-southeast-1
+    - redshift-ap-southeast-2
+    - redshift-ap-northeast-1
+    - rds-ap-southeast-1
+    - rds-ap-southeast-2
+    - rds-ap-northeast-1
+    - sns-ap-southeast-1
+    - sns-ap-southeast-2
+    - sns-ap-northeast-1
+    - sqs-ap-southeast-1
+    - sqs-ap-southeast-2
+    - sqs-ap-northeast-1
+    - s3-ap-southeast-1
+    - s3-ap-southeast-2
+    - s3-ap-northeast-1
+    - swf-ap-southeast-1
+    - swf-ap-southeast-2
+    - swf-ap-northeast-1
+    - simpledb-ap-southeast-1
+    - simpledb-ap-southeast-2
+    - simpledb-ap-northeast-1
+    - vpc-ap-southeast-1
+    - vpc-ap-southeast-2
+    - vpc-ap-northeast-1
+    - cloudformation-ap-southeast-1
+    - cloudformation-ap-southeast-2
+    - cloudformation-ap-northeast-1
+    - directconnect-ap-southeast-1
+    - directconnect-ap-southeast-2
+    - directconnect-ap-northeast-1
+    - elasticbeanstalk-ap-southeast-1
+    - elasticbeanstalk-ap-southeast-2
+    - elasticbeanstalk-ap-northeast-1
+    - iam-ap-southeast-1
+    - iam-ap-southeast-2
+    - iam-ap-northeast-1
+    - storagegateway-ap-southeast-1
+    - storagegateway-ap-southeast-2
+    - storagegateway-ap-northeast-1
+    valuesListDelimiter: ','
+  plugins:
+    ExecutionLifecycle: {}
+  scheduleEnabled: true
+  schedules: []
+  sequence:
+    commands:
+    - description: Check AWS Status for service
+      plugins:
+        LogFilter: []
+      script: curl -s https://status.aws.amazon.com/rss/@unquotedoption.Region@.rss
+        | egrep 'pubDate|title|description' |  head -8 | sed -e "s/[^[:alnum:]-]/
+        /g" -e "s/CDATA//g" -e "s/pubDate//g" -e "s/description//g" -e "s/title//g"
+    keepgoing: false
+    strategy: node-first
+  tags: 'aws,diagnostics'
+  uuid: 08360576-044e-4762-a7e5-da572919322a
+
