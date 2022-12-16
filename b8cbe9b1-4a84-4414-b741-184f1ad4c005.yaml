@@ -1,0 +1,80 @@
+- defaultTab: nodes
+  description: |
+    Sets up initial app deployment
+  executionEnabled: false
+  group: Other
+  id: b8cbe9b1-4a84-4414-b741-184f1ad4c005
+  loglevel: INFO
+  name: Setup Deployment
+  nodeFilterEditable: false
+  nodefilters:
+    dispatch:
+      excludePrecedence: true
+      keepgoing: false
+      rankOrder: ascending
+      successOnEmptyNodeFilter: false
+      threadcount: '1'
+    filter: 'name: Node-3-Kubernetes '
+  nodesSelectedByDefault: true
+  options:
+  - hidden: true
+    label: k8snamespace
+    name: namespace
+    required: true
+    value: pagerduty
+    values:
+    - pagerduty
+    valuesListDelimiter: ','
+  plugins:
+    ExecutionLifecycle: {}
+  scheduleEnabled: true
+  schedules: []
+  sequence:
+    commands:
+    - description: Create Namespace if does not exist
+      script: |-
+        NAMESPACE_NAME=@option.Namespace@
+        NS=$(kubectl get namespace $NAMESPACE_NAME --ignore-not-found);
+        if [[ "$NS" ]]; then
+          echo "Skipping creation of namespace $NAMESPACE_NAME - already exists";
+        else
+          echo "Creating namespace $NAMESPACE_NAME";
+          kubectl create namespace $NAMESPACE_NAME;
+        fi;
+    - description: 'Create Deployment Yaml, Unique ID for Execution'
+      script: |-
+        echo '
+        apiVersion: apps/v1
+        kind: Deployment
+        metadata:
+          name: businessapp
+          labels:
+            app: businessapp
+        spec:
+          replicas: 8
+          selector:
+            matchLabels:
+              app: businessapp
+          template:
+            metadata:
+              labels:
+                app: businessapp
+            spec:
+              containers:
+              - name: businessapp
+                image: pddemo/businessapplication
+                imagePullPolicy: Never
+                ports:
+                - containerPort: 80
+        '>temp/@job.execid@.yaml
+    - description: Apply K8s deployment  (use Unique ID)
+      script: kubectl apply -f temp/@job.execid@.yaml --namespace=@option.namespace@
+    - description: Confirm deployment
+      plugins:
+        LogFilter: []
+      script: kubectl get pods --namespace=@option.namespace@
+    - script: kubectl rollout history deploy nginx  -n pagerduty
+    keepgoing: false
+    strategy: node-first
+  uuid: b8cbe9b1-4a84-4414-b741-184f1ad4c005
+
