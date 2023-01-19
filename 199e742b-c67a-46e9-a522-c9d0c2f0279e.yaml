@@ -1,0 +1,115 @@
+- defaultTab: nodes
+  description: "Generic Slack Template Job\n\nOptions:\n1. Editable JSON template\
+    \ in first line of job\n2. The job takes several hidden options to create the\
+    \ report \n    -Label [1-5]\n    -Data  [1-5]\n3. These options will be passed\
+    \ from the parent calling job\n4. The report format will be generated as a local\
+    \ file that can be sent as a slack message \n\n"
+  executionEnabled: true
+  group: Shared Functions
+  id: 199e742b-c67a-46e9-a522-c9d0c2f0279e
+  loglevel: INFO
+  name: Template slack notification
+  nodeFilterEditable: false
+  nodefilters:
+    dispatch:
+      excludePrecedence: true
+      keepgoing: false
+      rankOrder: ascending
+      successOnEmptyNodeFilter: false
+      threadcount: '1'
+    filter: 'name: ec2-node-1 '
+  nodesSelectedByDefault: true
+  options:
+  - description: |-
+      Location of the template files
+
+      eg /home/ec2-user/templates/
+    label: Template Location
+    name: templatedir
+    value: /home/ec2-user/
+  - label: Slack Webhook URL
+    name: slackURL
+    value: https://hooks.slack.com/services/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
+  - label: Template Name
+    name: template
+    value: grafana-slack-template.in
+  plugins:
+    ExecutionLifecycle: {}
+  scheduleEnabled: true
+  schedules: []
+  sequence:
+    commands:
+    - description: Create Slack Template
+      script: "echo '{\n    \"blocks\": [\n        {\n            \"type\": \"header\"\
+        ,\n            \"text\": {\n                \"type\": \"plain_text\",\n  \
+        \              \"text\": \"\U0001f195 Grafana Environment Instance Provisioned\
+        \ \U0001f195\",\n                \"emoji\": true\n            }\n        },\n\
+        \n\n\n\t{\n\t\t\t\"type\": \"divider\"\n\t\t},\n\n{\n            \"type\"\
+        : \"section\",\n            \"fields\": [\n                {\n\t\t    \"type\"\
+        : \"mrkdwn\",\n\t\t    \"text\": \"#label4: \\n \U0001f4dd #data4\"\n\t\t\
+        },\n\n\t\t{\n                    \"type\": \"mrkdwn\",\n                 \
+        \   \"text\": \"#label1:\\n \U0001f310 #data1\"\n                },\n    \
+        \            {\n                    \"type\": \"mrkdwn\",\n              \
+        \      \"text\": \"Your Unique #label2:\\n \U0001f510 #data2\"\n         \
+        \       }\n            ]\n        },\n\t{\n\t\t\t\"type\": \"divider\"\n\t\
+        \t},\n\n\n{\n  \"type\": \"context\",\n  \"elements\": [\n    {\n      \"\
+        type\": \"image\",\n      \"image_url\": \"https://symbols.getvecta.com/stencil_94/124_rundeck-icon.2110a89314.svg\"\
+        ,\n      \"alt_text\": \"images\"\n    },\n    {\n      \"type\": \"mrkdwn\"\
+        ,\n      \"text\": \"*#label3:*\\n#data3\"\n    }\n  ]\n},\n\t{\n        \
+        \                \"type\": \"divider\"\n                },\n    ]\n}' >@unquotedoption.templatedir@/@unquotedoption.template@"
+    - description: Find & Replace labels in slack template
+      plugins:
+        LogFilter:
+        - config:
+            hideOutput: 'false'
+            logData: 'true'
+            name: slack
+            regex: (.*)
+          type: key-value-data-multilines
+      script: |-
+        #!/usr/bin/python
+        from re import sub
+        from os.path import abspath, realpath, join, dirname
+
+        file = abspath(join(dirname(__file__), '@option.templatedir@/@option.template@'))
+        file_open = open(file, 'r')
+        file_read = file_open.read()
+        file_open.close()
+        def replace_content(dict_replace, target):
+            for (check, replacer) in list(dict_replace.items()):
+                target = sub(check, replacer, target)
+            return target
+        dict_replace = {'\n': '''\n''',
+                        '\r': ' ',
+                        '#label1': '''@option.label1@''',
+                        '#label2': '''@option.label2@''',
+                        '#label3': '''@option.label3@''',
+                        '#label4': '''@option.label4@''',
+                        '#label5': '''@option.label5@''',
+                        '#data1': '''@option.data1@''',
+                        '#data2': '''@option.data2@''',
+                        '#data3': '''@option.data3@''',
+                        '#data4': '''@option.data4@''',
+                        '#data5': '''@option.data5@'''
+                        }
+        new_content = replace_content(dict_replace, file_read)
+        print new_content
+    - configuration:
+        authentication: None
+        body: ${data.slack}
+        checkResponseCode: 'false'
+        method: POST
+        printResponse: 'false'
+        printResponseToFile: 'false'
+        proxySettings: 'false'
+        remoteUrl: ${option.slackURL}
+        sslVerify: 'true'
+        timeout: '30000'
+      description: Slack Update
+      nodeStep: true
+      type: edu.ohio.ais.rundeck.HttpWorkflowNodeStepPlugin
+    keepgoing: false
+    strategy: node-first
+  tags: slack
+  uuid: 199e742b-c67a-46e9-a522-c9d0c2f0279e
+
